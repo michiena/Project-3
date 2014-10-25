@@ -21,14 +21,12 @@ public class DialogRentDVD extends JDialog implements ActionListener {
 
 	private JButton ok;
 	private JButton cancel;
-	private boolean CloseStatus;
+	private boolean closeStatus;
 	private DVD unit;
-	ListEngine engine;
 
 	public DialogRentDVD(JFrame parent, DVD d) {
-		super(parent, "Rent a DVD");
+		super(parent, "Rent a DVD", true);
 		unit = d;
-		
 		setLayout(new BorderLayout());
 		System.out.println("2");
 		
@@ -64,7 +62,7 @@ public class DialogRentDVD extends JDialog implements ActionListener {
 		
 		jName = new JLabel("Your Name:");
 		jRent = new JLabel("Title of DVD:");
-		jRentedOn = new JLabel("Due Back:");
+		jRentedOn = new JLabel("Rented on:");
 		jDueBack = new JLabel("Due Back:");
 		
 
@@ -97,10 +95,19 @@ public class DialogRentDVD extends JDialog implements ActionListener {
 		pack();
 		setVisible(true);
 	}
+	
+	public DVD getUnit(){
+		return unit;
+	}
+	
+	public boolean getCloseStatus(){
+		return closeStatus;
+	}
 
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == cancel) {
-
+			closeStatus = false;
+			dispose();
 		}
 
 		if (e.getSource() == ok) {
@@ -116,16 +123,20 @@ public class DialogRentDVD extends JDialog implements ActionListener {
 			for (int i = 0; i < 3; i++)
 				iDueBack[i] = Integer.parseInt(sDueBack[i]);
 
-			if (iBought.length != 3 || iDueBack.length != 3) {
+			if (iBought.length == 3 && iDueBack.length == 3) {
 				GregorianCalendar bought = new GregorianCalendar(iBought[2],
-						iBought[1], iBought[0]);
+						iBought[0], iBought[1]);
 				GregorianCalendar dueBack = new GregorianCalendar(iDueBack[2],
-						iDueBack[1], iDueBack[0]);
+						iDueBack[0], iDueBack[1]);
 
-				DVD d = new DVD(bought, dueBack, jName.getText(),
-						name.getText());
-				engine.addElement(d);
-			}
+				unit = new DVD(bought, dueBack, rent.getText(), name.getText());
+				closeStatus = true;
+				dispose();
+				setVisible(false);
+				}
+			System.out.println("not good");
+			dispose();
+			
 		}
 	}
 }
