@@ -1,0 +1,73 @@
+package package1;
+import java.util.GregorianCalendar;
+import java.text.SimpleDateFormat;
+import java.io.Serializable;
+
+public class DVD implements Serializable {
+	private static final long serialVersionUID = 1L;
+	protected GregorianCalendar bought;
+	protected GregorianCalendar dueBack;
+	protected String title;
+	protected String nameOfRenter;
+	
+	public DVD (GregorianCalendar bought, GregorianCalendar dueBack, String title, String nameOfRenter){
+		this.bought = bought;
+		this.dueBack = dueBack;
+		this.title = title;
+		this.nameOfRenter = nameOfRenter;
+	}
+	
+	public GregorianCalendar getBought() {
+		return bought;
+	}
+	public void setBought(GregorianCalendar bought) {
+		this.bought = bought;
+	}
+	public GregorianCalendar getDueBack() {
+		return dueBack;
+	}
+	public void setDueBack(GregorianCalendar dueBack) {
+		this.dueBack = dueBack;
+	}
+	public String getTitle() {
+		return title;
+	}
+	public void setTitle(String title) {
+		this.title = title;
+	}
+	public String getNameOfRenter() {
+		return nameOfRenter;
+	}
+	public void setNameOfRenter(String nameOfRenter) {
+		this.nameOfRenter = nameOfRenter;
+	}
+	
+	public String boughtToString(){
+		SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
+		return (sdf.format(bought.getTime()));
+	}
+	
+	public String dueBackToString(){
+		SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
+		return (sdf.format(dueBack.getTime()));
+	}
+	
+	public String toString(){
+		SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
+		String sBought = sdf.format(bought.getTime());
+		String sDueBack = sdf.format(dueBack.getTime());
+		return ("Name: " + nameOfRenter + ",  Title: " + title + ",  Rented on: " + sBought +
+				",  Due back on: " + sDueBack);
+				
+	}
+	
+//	public static void main(String[] args){
+//		GregorianCalendar bought = new GregorianCalendar();
+//		GregorianCalendar dueBack = new GregorianCalendar();
+//		dueBack.add(GregorianCalendar.DAY_OF_MONTH, 1);
+//		
+//		DVD d = new DVD (bought, dueBack, "Andrew Michienzi", "Scott Pilgrim Vs. the World");
+//		System.out.println(d.toString());
+//	}
+	
+}
