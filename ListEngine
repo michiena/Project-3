@@ -31,4 +31,14 @@ public class ListEngine extends AbstractListModel {
 		listDVDs.add(d);
 		fireIntervalAdded(this, 0, getSize());
 	}
+	
+	public void removeElement(int index){
+		listDVDs.remove(index);
+		fireIntervalRemoved(this, index, index);
+	}
+	
+	public void update(){
+//		for (int i = 0; i < getSize(); i++)
+//			fireIntervalUpdate()
+	}
 }
