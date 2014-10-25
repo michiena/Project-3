@@ -6,6 +6,7 @@ import javax.swing.*;
 import java.util.GregorianCalendar;
 
 public class GUIRentalStore extends JFrame implements ActionListener {
+	private static final long serialVersionUID = 1L;
 
 	private JMenuBar menuBar;
 
@@ -21,13 +22,17 @@ public class GUIRentalStore extends JFrame implements ActionListener {
 	private JMenuItem rentGame;
 	private JMenuItem return1;
 
-	private JList<AbstractListModel<DVD>> list;
 	private ListEngine engine;
+	private JList <DVD> list;
+	
+	private boolean wait;
 
 	public GUIRentalStore() {
 		super("Rental Store");
-		setSize(150, 100);
+		setSize(700, 100);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		
+		wait = true;
 		
 		// create menu bar
 		menuBar = new JMenuBar();
@@ -83,12 +88,16 @@ public class GUIRentalStore extends JFrame implements ActionListener {
 
 		// construct text area
 		engine = new ListEngine();
+	
+		list = new JList (engine);
 		
+		this.add(list);
 
 		menuBar.add(file);
 		menuBar.add(action);
 		this.setJMenuBar(menuBar);
-//		this.add(list);
+		setSize(500,300);
+
 
 
 	}
@@ -115,7 +124,7 @@ public class GUIRentalStore extends JFrame implements ActionListener {
 		}
 
 		if (e.getSource() == exit) {
-
+			System.exit(0);
 		}
 
 		if (e.getSource() == rentDVD) {
@@ -123,10 +132,14 @@ public class GUIRentalStore extends JFrame implements ActionListener {
 			GregorianCalendar dueBack = new GregorianCalendar();
 			dueBack.add(GregorianCalendar.DAY_OF_MONTH, 1);
 
-			DVD d = new DVD(bought, dueBack, "Andrew Michienzi",
-					"Scott Pilgrim Vs. the World");
-			DialogRentDVD di = new DialogRentDVD(this, d);
-
+			DVD d = new DVD(bought, dueBack, "Scott Pilgrim Vs. the World",
+					"Andrew Michienzi");
+			DialogRentDVD di = new DialogRentDVD(new JFrame(), d);
+			
+			if(di.getCloseStatus() == true){
+				d = di.getUnit();
+				engine.addElement(d);
+			}
 		}
 
 		if (e.getSource() == rentGame) {
@@ -134,9 +147,15 @@ public class GUIRentalStore extends JFrame implements ActionListener {
 			GregorianCalendar dueBack = new GregorianCalendar();
 			dueBack.add(GregorianCalendar.DAY_OF_MONTH, 1);
 
-			Game d = new Game(bought, dueBack, "Andrew Michienzi", "NBA 2K14",
+			Game d = new Game(bought, dueBack, "NBA 2K14", "Andrew Michienzi",
 					PlayerType.XBOX_360);
-			DialogRentGame di = new DialogRentGame(this, d);
+			System.out.println("1");
+			DialogRentGame di = new DialogRentGame(new JFrame(), d);
+			
+		}
+		
+		if(e.getSource() == return1){
+			
 		}
 	}
 
