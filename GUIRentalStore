@@ -1,0 +1,147 @@
+package package1;
+
+import java.awt.*;
+import java.awt.event.*;
+import javax.swing.*;
+import java.util.GregorianCalendar;
+
+public class GUIRentalStore extends JFrame implements ActionListener {
+
+	private JMenuBar menuBar;
+
+	private JMenu file;
+	private JMenu action;
+
+	private JMenuItem openSerial;
+	private JMenuItem saveSerial;
+	private JMenuItem openText;
+	private JMenuItem saveText;
+	private JMenuItem exit;
+	private JMenuItem rentDVD;
+	private JMenuItem rentGame;
+	private JMenuItem return1;
+
+	private JList<AbstractListModel<DVD>> list;
+	private ListEngine engine;
+
+	public GUIRentalStore() {
+		super("Rental Store");
+		setSize(150, 100);
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		
+		// create menu bar
+		menuBar = new JMenuBar();
+
+		// Build File menu and add to menu bar
+		file = new JMenu("File");
+		file.addActionListener(this);
+		menuBar.add(file);
+
+		// Add menu items to file menu and add to action listener
+		openSerial = new JMenuItem("Open Serial...");
+		openSerial.addActionListener(this);
+		file.add(openSerial);
+
+		saveSerial = new JMenuItem("Save Serial...");
+		saveSerial.addActionListener(this);
+		file.add(saveSerial);
+
+		file.addSeparator();
+
+		openText = new JMenuItem("Open Text...");
+		openText.addActionListener(this);
+		file.add(openText);
+
+		saveText = new JMenuItem("Save Text...");
+		saveText.addActionListener(this);
+		file.add(saveText);
+
+		file.addSeparator();
+
+		exit = new JMenuItem("Exit!");
+		exit.addActionListener(this);
+		file.add(exit);
+
+		// Build Action Menu and add to menu bar
+		action = new JMenu("Action");
+		menuBar.add(action);
+
+		// Add menu items to action menu
+		rentDVD = new JMenuItem("Rent DVD");
+		rentDVD.addActionListener(this);
+		action.add(rentDVD);
+
+		rentGame = new JMenuItem("Rent Game");
+		rentGame.addActionListener(this);
+		action.add(rentGame);
+
+		action.addSeparator();
+
+		return1 = new JMenuItem("Return");
+		return1.addActionListener(this);
+		action.add(return1);
+
+		// construct text area
+		engine = new ListEngine();
+		
+
+		menuBar.add(file);
+		menuBar.add(action);
+		this.setJMenuBar(menuBar);
+//		this.add(list);
+
+
+	}
+
+	public void addList(DVD d) {
+
+	}
+
+	public void actionPerformed(ActionEvent e) {
+		if (e.getSource() == openSerial) {
+
+		}
+
+		if (e.getSource() == saveSerial) {
+
+		}
+
+		if (e.getSource() == openText) {
+
+		}
+
+		if (e.getSource() == saveText) {
+
+		}
+
+		if (e.getSource() == exit) {
+
+		}
+
+		if (e.getSource() == rentDVD) {
+			GregorianCalendar bought = new GregorianCalendar();
+			GregorianCalendar dueBack = new GregorianCalendar();
+			dueBack.add(GregorianCalendar.DAY_OF_MONTH, 1);
+
+			DVD d = new DVD(bought, dueBack, "Andrew Michienzi",
+					"Scott Pilgrim Vs. the World");
+			DialogRentDVD di = new DialogRentDVD(this, d);
+
+		}
+
+		if (e.getSource() == rentGame) {
+			GregorianCalendar bought = new GregorianCalendar();
+			GregorianCalendar dueBack = new GregorianCalendar();
+			dueBack.add(GregorianCalendar.DAY_OF_MONTH, 1);
+
+			Game d = new Game(bought, dueBack, "Andrew Michienzi", "NBA 2K14",
+					PlayerType.XBOX_360);
+			DialogRentGame di = new DialogRentGame(this, d);
+		}
+	}
+
+	public static void main(String[] args) {
+		GUIRentalStore frame = new GUIRentalStore();
+		frame.setVisible(true);
+	}
+}
