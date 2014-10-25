@@ -1,0 +1,127 @@
+package package1;
+
+import java.awt.*;
+import java.awt.event.*;
+import java.util.GregorianCalendar;
+import javax.swing.*;
+
+public class DialogRentDVD extends JDialog implements ActionListener {
+	private JPanel borderPanel;
+	private JPanel leftPanel;
+	private JPanel rightPanel;
+
+	private JTextField name;
+	private JTextField rent;
+	private JTextField rentedOn;
+	private JTextField dueBack;
+
+	private JLabel jName;
+	private JLabel jRent;
+	private JLabel jRentedOn;
+	private JLabel jDueBack;
+
+	private JButton ok;
+	private JButton cancel;
+	private boolean CloseStatus;
+	private DVD unit;
+	ListEngine engine;
+
+	public DialogRentDVD(JFrame parent, DVD d) {
+		unit = d;
+		parent = new JFrame("Rent a DVD");
+		parent.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+		// Construct JPanels
+		borderPanel = new JPanel();
+		borderPanel.setLayout(new BorderLayout());
+
+		leftPanel = new JPanel();
+		leftPanel.setLayout(new BoxLayout(parent, BoxLayout.Y_AXIS));
+
+		rightPanel = new JPanel();
+		rightPanel.setLayout(new BoxLayout(parent, BoxLayout.Y_AXIS));
+
+		// Construct Text Fields and add to actionListener
+		name = new JTextField(unit.getNameOfRenter(), 30);
+		name.addActionListener(this);
+
+		rent = new JTextField(unit.getTitle(), 30);
+		rent.addActionListener(this);
+
+		rentedOn = new JTextField(unit.boughtToString(), 30);
+		rentedOn.addActionListener(this);
+
+		dueBack = new JTextField(unit.dueBackToString(), 30);
+		dueBack.addActionListener(this);
+
+		// Construct JButtons and add to actionListener
+		ok = new JButton("OK");
+		ok.addActionListener(this);
+
+		cancel = new JButton("Cancel");
+		cancel.addActionListener(this);
+
+		// Construct JLabels
+		jName = new JLabel("Your Name:");
+		jRent = new JLabel("Title of DVD:");
+		jRentedOn = new JLabel("Due Back:");
+		jDueBack = new JLabel("Due Back:");
+
+		// Add JLabels to leftPanel
+		leftPanel.add(jName);
+		leftPanel.add(jRent);
+		leftPanel.add(jRentedOn);
+		leftPanel.add(jDueBack);
+
+		// Add leftPanel to borderPanel
+		borderPanel.add(leftPanel, BorderLayout.WEST);
+
+		// add JTextFields to rightPanel
+		rightPanel.add(name);
+		rightPanel.add(rent);
+		rightPanel.add(rentedOn);
+		rightPanel.add(dueBack);
+
+		// Add rightPanel to borderPanel
+		borderPanel.add(rightPanel, BorderLayout.EAST);
+
+		// Add Buttons to south part of borderPanel
+		borderPanel.add(ok, BorderLayout.SOUTH);
+		borderPanel.add(ok, BorderLayout.SOUTH);
+
+		parent.getContentPane().add(borderPanel);
+
+		parent.setVisible(true);
+	}
+
+	public void actionPerformed(ActionEvent e) {
+		if (e.getSource() == cancel) {
+
+		}
+
+		if (e.getSource() == ok) {
+			String[] sBought = (rentedOn.getText().split("/"));
+			String[] sDueBack = dueBack.getText().split("/");
+			int[] iBought = new int[3];
+			int[] iDueBack = new int[3];
+
+			// Eventually try catch
+			for (int i = 0; i < 3; i++)
+				iBought[i] = Integer.parseInt(sBought[i]);
+
+			for (int i = 0; i < 3; i++)
+				iDueBack[i] = Integer.parseInt(sDueBack[i]);
+
+			if (iBought.length != 3 || iDueBack.length != 3) {
+				GregorianCalendar bought = new GregorianCalendar(iBought[2],
+						iBought[1], iBought[0]);
+				GregorianCalendar dueBack = new GregorianCalendar(iDueBack[2],
+						iDueBack[1], iDueBack[0]);
+
+				DVD d = new DVD(bought, dueBack, jName.getText(),
+						name.getText());
+				engine.addElement(d);
+			}
+		}
+	}
+}
