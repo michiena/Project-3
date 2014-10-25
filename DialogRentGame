@@ -1,114 +1,159 @@
 package package1;
+
 import java.awt.*;
 import java.awt.event.*;
+import java.util.GregorianCalendar;
 
 import javax.swing.*;
 
-public class DialogRentGame extends JDialog implements ActionListener{
+public class DialogRentGame extends JDialog implements ActionListener {
+	private static final long serialVersionUID = 1L;
 
-		private JPanel borderPanel;
-		private JPanel leftPanel;
-		private JPanel rightPanel;
+	private JTextField name;
+	private JTextField rent;
+	private JTextField rentedOn;
+	private JTextField dueBack;
+	
+	private JComboBox player;
+
+	private JLabel jName;
+	private JLabel jRent;
+	private JLabel jRentedOn;
+	private JLabel jDueBack;
+	private JLabel jPlayer;
+
+	private JButton ok;
+	private JButton cancel;
+	private boolean closeStatus;
+	private Game unit;
+	private ListEngine engine;
+
+	public DialogRentGame(JFrame parent, Game d){
+		super(parent, "Rent a Game", true);
+		unit = d;
+		closeStatus = true;
+		setLayout(new BorderLayout());
+		System.out.println("2");
 		
-		private JTextField name;
-		private JTextField rent;
-		private JTextField rentedOn;
-		private JTextField dueBack;
+		// Construct Text Fieldsf and add to actionListener
+		name = new JTextField(unit.getNameOfRenter(), 30);
+		name.addActionListener(this);
+
+		rent = new JTextField(unit.getTitle(), 30);
+		rent.addActionListener(this);
+
+		rentedOn = new JTextField(unit.boughtToString(), 30);
+		rentedOn.addActionListener(this);
+
+		dueBack = new JTextField(unit.dueBackToString(), 30);
+		dueBack.addActionListener(this);
 		
-		private JComboBox player;
+		String[] playerTypes = {"Xbox 360", "PS3", "Xbox 720", "PS4"};
+		player = new JComboBox(playerTypes);
 		
-		private JLabel jName;
-		private JLabel jRent;
-		private JLabel jRentedOn;
-		private JLabel jDueBack;
-		private JLabel jPlayer;
+		JPanel rightPanel = new JPanel();
+		rightPanel.setLayout(new BoxLayout(rightPanel, BoxLayout.PAGE_AXIS));
 		
-		private JButton ok;
-		private JButton cancel;
-		private boolean CloseStatus;
-		private Game unit;
+		rightPanel.add(name);
+		rightPanel.add(rent);
+		rightPanel.add(rentedOn);
+		rightPanel.add(dueBack);
+		rightPanel.add(player);
+
+		// Construct JButtons and add to actionListener
+		ok = new JButton("OK");
+		ok.addActionListener(this);
+
+		cancel = new JButton("Cancel");
+		cancel.addActionListener(this);
+
+		// Construct JLabels
 		
-		public DialogRentGame(JFrame parent, Game d){
-			super(parent, "Rent Game", ModalityType.DOCUMENT_MODAL);
-			unit = d;
-			
-			parent.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-			
-			//Construct JPanels
-			borderPanel = new JPanel();
-			borderPanel.setLayout(new BorderLayout());
-			
-			leftPanel = new JPanel();
-			leftPanel.setLayout(new BoxLayout(parent, BoxLayout.Y_AXIS));
-			
-			rightPanel = new JPanel();
-			rightPanel.setLayout(new BoxLayout(parent, BoxLayout.Y_AXIS));
-			
-			//Construct Text Fields and add to actionListener
-			name = new JTextField(unit.getNameOfRenter(), 30);
-			name.addActionListener(this);
-			
-			rent = new JTextField(unit.getTitle(), 30);
-			rent.addActionListener(this);
-			
-			rentedOn = new JTextField(unit.boughtToString(), 30);
-			rentedOn.addActionListener(this);
-			
-			dueBack = new JTextField(unit.dueBackToString(), 30);
-			dueBack.addActionListener(this);
-			
-			//Construct String for the JComboBox 
-			String[] playerTypes = {"Xbox 360", "Xbox 720", "PS3", "PS4"};
-			player = new JComboBox (playerTypes);
-			player.addActionListener(this);
-			
-			//Construct JButtons and add to actionListener
-			ok = new JButton("OK");
-			ok.addActionListener(this);
-			
-			cancel = new JButton("Cancel");
-			cancel.addActionListener(this);
-			
-			//Construct JLabels
-			jName = new JLabel ("Your Name:");
-			jRent = new JLabel ("Title of DVD:");
-			jRentedOn = new JLabel ("Due Back:");
-			jDueBack = new JLabel ("Due Back:");
-			jPlayer = new JLabel ("Type of Player:");
-			
-			//Add JLabels to leftPanel
-			leftPanel.add(jName);
-			leftPanel.add(jRent);
-			leftPanel.add(jRentedOn);
-			leftPanel.add(jDueBack);
-			leftPanel.add(jPlayer);
-			
-			//Add leftPanel to borderPanel
-			borderPanel.add(leftPanel, BorderLayout.WEST);
-			
-			//add JTextFields to rightPanel
-			rightPanel.add(name);
-			rightPanel.add(rent);
-			rightPanel.add(rentedOn);
-			rightPanel.add(dueBack);
-			rightPanel.add(player);
-			
-			//Add rightPanel to borderPanel
-			borderPanel.add(rightPanel, BorderLayout.EAST);
-			
-			//Add Buttons to south part of borderPanel
-			borderPanel.add(ok, BorderLayout.SOUTH);
-			borderPanel.add(ok, BorderLayout.SOUTH);
-			
-			this.add(borderPanel);
-			
-			setVisible(true);
+		jName = new JLabel("Your Name:");
+		jRent = new JLabel("Title of DVD:");
+		jRentedOn = new JLabel("Due Back:");
+		jDueBack = new JLabel("Due Back:");
+		jPlayer = new JLabel("Type of Player:");
+		
+
+		JPanel leftPanel = new JPanel();
+		leftPanel.setLayout(new BoxLayout(leftPanel, BoxLayout.PAGE_AXIS));
+		
+		leftPanel.add(jName);
+		leftPanel.add(jRent);
+		leftPanel.add(jRentedOn);
+		leftPanel.add(jDueBack);
+		leftPanel.add(jPlayer);
+		
+		
+		getContentPane().add(leftPanel, BorderLayout.WEST);
+		getContentPane().add(rightPanel, BorderLayout.EAST);
+		
+		System.out.println("8");
+
+		// Add Buttons to south part of borderPanel
+
+		System.out.println("4");
+		
+		JPanel southPanel = new JPanel();
+		southPanel.setLayout(new BoxLayout(southPanel, BoxLayout.X_AXIS));
+		
+		southPanel.add(ok);
+		southPanel.add(cancel);
+		
+		getContentPane().add(southPanel, BorderLayout.SOUTH);
+		
+		System.out.println("5");
+		pack();
+		setVisible(true);
+	}
+
+	public void actionPerformed(ActionEvent e) {
+		if (e.getSource() == cancel) {
+			closeStatus = false;
+			dispose();
+		}
+
+		if (e.getSource() == ok) {
+			String[] sBought = (rentedOn.getText().split("/"));
+			String[] sDueBack = dueBack.getText().split("/");
+			int[] iBought = new int[3];
+			int[] iDueBack = new int[3];
+
+			// Eventually try catch
+			for (int i = 0; i < 3; i++)
+				iBought[i] = Integer.parseInt(sBought[i]);
+
+			for (int i = 0; i < 3; i++)
+				iDueBack[i] = Integer.parseInt(sDueBack[i]);
+
+			if (iBought.length == 3 && iDueBack.length == 3) {
+				GregorianCalendar bought = new GregorianCalendar(iBought[2],
+						iBought[0], iBought[1]);
+				GregorianCalendar dueBack = new GregorianCalendar(iDueBack[2],
+						iDueBack[0], iDueBack[1]);
+				PlayerType type;
+				if (player.getSelectedIndex() == 0)
+					type = PlayerType.XBOX_360;
+				
+				if(player.getSelectedIndex() == 1)
+					type = PlayerType.PS3;
+				
+				if(player.getSelectedIndex() == 2)
+					type = PlayerType.XBOX_720;
+				
+				if(player.getSelectedIndex() == 3)
+					type = PlayerType.PS4;
+
+				unit = new Game(bought, dueBack, rent.getText(), name.getText(), type);
+				closeStatus = true;
+				dispose();
+				setVisible(false);
+				}
+			System.out.println("not good");
+			dispose();
 			
 		}
-		public void actionPerformed(ActionEvent e){
-			
-		}
-	
+	}
 
-	
 }
