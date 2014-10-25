@@ -1,0 +1,114 @@
+package package1;
+import java.awt.*;
+import java.awt.event.*;
+
+import javax.swing.*;
+
+public class DialogRentGame extends JDialog implements ActionListener{
+
+		private JPanel borderPanel;
+		private JPanel leftPanel;
+		private JPanel rightPanel;
+		
+		private JTextField name;
+		private JTextField rent;
+		private JTextField rentedOn;
+		private JTextField dueBack;
+		
+		private JComboBox player;
+		
+		private JLabel jName;
+		private JLabel jRent;
+		private JLabel jRentedOn;
+		private JLabel jDueBack;
+		private JLabel jPlayer;
+		
+		private JButton ok;
+		private JButton cancel;
+		private boolean CloseStatus;
+		private Game unit;
+		
+		public DialogRentGame(JFrame parent, Game d){
+			super(parent, "Rent Game", ModalityType.DOCUMENT_MODAL);
+			unit = d;
+			
+			parent.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+			
+			//Construct JPanels
+			borderPanel = new JPanel();
+			borderPanel.setLayout(new BorderLayout());
+			
+			leftPanel = new JPanel();
+			leftPanel.setLayout(new BoxLayout(parent, BoxLayout.Y_AXIS));
+			
+			rightPanel = new JPanel();
+			rightPanel.setLayout(new BoxLayout(parent, BoxLayout.Y_AXIS));
+			
+			//Construct Text Fields and add to actionListener
+			name = new JTextField(unit.getNameOfRenter(), 30);
+			name.addActionListener(this);
+			
+			rent = new JTextField(unit.getTitle(), 30);
+			rent.addActionListener(this);
+			
+			rentedOn = new JTextField(unit.boughtToString(), 30);
+			rentedOn.addActionListener(this);
+			
+			dueBack = new JTextField(unit.dueBackToString(), 30);
+			dueBack.addActionListener(this);
+			
+			//Construct String for the JComboBox 
+			String[] playerTypes = {"Xbox 360", "Xbox 720", "PS3", "PS4"};
+			player = new JComboBox (playerTypes);
+			player.addActionListener(this);
+			
+			//Construct JButtons and add to actionListener
+			ok = new JButton("OK");
+			ok.addActionListener(this);
+			
+			cancel = new JButton("Cancel");
+			cancel.addActionListener(this);
+			
+			//Construct JLabels
+			jName = new JLabel ("Your Name:");
+			jRent = new JLabel ("Title of DVD:");
+			jRentedOn = new JLabel ("Due Back:");
+			jDueBack = new JLabel ("Due Back:");
+			jPlayer = new JLabel ("Type of Player:");
+			
+			//Add JLabels to leftPanel
+			leftPanel.add(jName);
+			leftPanel.add(jRent);
+			leftPanel.add(jRentedOn);
+			leftPanel.add(jDueBack);
+			leftPanel.add(jPlayer);
+			
+			//Add leftPanel to borderPanel
+			borderPanel.add(leftPanel, BorderLayout.WEST);
+			
+			//add JTextFields to rightPanel
+			rightPanel.add(name);
+			rightPanel.add(rent);
+			rightPanel.add(rentedOn);
+			rightPanel.add(dueBack);
+			rightPanel.add(player);
+			
+			//Add rightPanel to borderPanel
+			borderPanel.add(rightPanel, BorderLayout.EAST);
+			
+			//Add Buttons to south part of borderPanel
+			borderPanel.add(ok, BorderLayout.SOUTH);
+			borderPanel.add(ok, BorderLayout.SOUTH);
+			
+			this.add(borderPanel);
+			
+			setVisible(true);
+			
+		}
+		public void actionPerformed(ActionEvent e){
+			
+		}
+	
+
+	
+}
