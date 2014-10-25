@@ -1,0 +1,34 @@
+package package1;
+import javax.swing.AbstractListModel;
+import java.util.ArrayList;
+
+public class ListEngine extends AbstractListModel {
+	private ArrayList<DVD> listDVDs;
+	
+	public ListEngine(){
+		listDVDs = new ArrayList<DVD>();
+	}
+
+	public ArrayList<DVD> getListDVDs() {
+		return listDVDs;
+	}
+
+	public void setListDVDs(ArrayList<DVD> listDVDs) {
+		this.listDVDs = listDVDs;
+	}
+	
+	@Override
+	public Object getElementAt(int arg0){
+		return (listDVDs.get(arg0));
+	}
+	
+	@Override
+	public int getSize(){
+		return listDVDs.size();
+	}
+	
+	public void addElement(DVD d){
+		listDVDs.add(d);
+		fireIntervalAdded(this, 0, getSize());
+	}
+}
